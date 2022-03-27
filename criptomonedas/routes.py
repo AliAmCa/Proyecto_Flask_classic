@@ -2,7 +2,7 @@ from criptomonedas import app
 from flask import flash, render_template, request, redirect, url_for
 import sqlite3
 from criptomonedas.models import ProcesaDatos
-
+from criptomonedas.forms import PurchaseForm
 ruta_db = app.config['RUTA_BBDD']
 data_manager = ProcesaDatos(ruta_db)
 
@@ -19,4 +19,7 @@ def inicio():
 
 @app.route("/purchase")
 def purchase():
-    pass
+    form = PurchaseForm()
+
+    if request.method == 'GET':
+        return render_template("compra.html", formulario = form)

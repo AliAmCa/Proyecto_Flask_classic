@@ -6,4 +6,4 @@ import sqlite3
 @app.route("/")
 def inicio():
 
-    return "Funcionando"
+    return render_template("movimientos.html")

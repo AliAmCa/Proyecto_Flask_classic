@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Movimientos {% endblock %}
+
+
+{% block contenido %}
+
+    <h1>MOVIMIENTOS</h1>
+
+    <table class="movimientos">
+        <tr class="cabecera">
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>From</th>
+            <th>Q</th>
+            <th>To</th>
+            <th>Q</th>
+            <th>P.U</th>
+        </tr>
+        {% for item in movimientos %}
+            <tr>
+                <td>{{item['fecha']}}</td>
+                <td>{{item['hora']}}</td>
+                <td>{{item['from']}}</td>
+                <td>{{item['cantidad_from']}}</td>
+                <td>{{item['to']}}</td>
+                <td>{{item['cantidad_to']}}</td>
+                <td>{{item['cantidad_from']}}{{item['from']}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <p class="actions">
+        <a href="/status" role="button">Status</a>
+        <a href="/alta" role="button">+</a>
+    </p>
+
+{% endblock %}

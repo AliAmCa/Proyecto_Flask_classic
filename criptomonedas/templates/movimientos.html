@@ -6,29 +6,40 @@
 {% block contenido %}
 
     <h1>MOVIMIENTOS</h1>
+    {% if movimientos %}
+        <table class="table">
+            <thead>
+                <tr class="cabecera">
+                    <th>Posición</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>From</th>
+                    <th>Q</th>
+                    <th>To</th>
+                    <th>Q</th>
+                    <th>P.U</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in movimientos %}
+                    <tr>
+                        <th>{{item['id']}}</th>
+                        <td>{{item['fecha']}}</td>
+                        <td>{{item['Hora']}}</td>
+                        <td>{{item['from']}}</td>
+                        <td>{{item['cantidad_from']}}</td>
+                        <td>{{item['to']}}</td>
+                        <td>{{item['cantidad_to']}}</td>
+                        <td>{{item['cantidad_from']}}{{item['from']}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h1>No hay movimientos</h1>
+    {% endif %}
 
-    <table class="movimientos">
-        <tr class="cabecera">
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>From</th>
-            <th>Q</th>
-            <th>To</th>
-            <th>Q</th>
-            <th>P.U</th>
-        </tr>
-        {% for item in movimientos %}
-            <tr>
-                <td>{{item['fecha']}}</td>
-                <td>{{item['hora']}}</td>
-                <td>{{item['from']}}</td>
-                <td>{{item['cantidad_from']}}</td>
-                <td>{{item['to']}}</td>
-                <td>{{item['cantidad_to']}}</td>
-                <td>{{item['cantidad_from']}}{{item['from']}}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    
 
     <p class="actions">
         <a href="/status" role="button">Status</a>

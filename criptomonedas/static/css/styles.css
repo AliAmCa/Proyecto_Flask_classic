@@ -3,3 +3,9 @@
     overflow-y: auto;
     display: block;
 }
+
+.actions{
+    display: flex;
+    justify-content: space-between;
+
+}

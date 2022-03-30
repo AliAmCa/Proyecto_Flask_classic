@@ -12,7 +12,7 @@
 
 .form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-around;
 
@@ -22,6 +22,29 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-.button{
+.container_buttons{
+    display: flex;
+    justify-content: space-around;
     align-self: flex-end;
+
+}
+.botones{
+    display: flex;
+    flex-direction: row;
+    justify-content:end
+    
+}
+.botones .button{
+    padding: 0;
+    margin-left: 5px;
+    width: 95.84;
+   
+}
+
+.calc{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
 }

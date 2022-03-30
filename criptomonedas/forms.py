@@ -1,6 +1,6 @@
 
 from flask_wtf import FlaskForm
-from wtforms import SelectField, FloatField, SubmitField
+from wtforms import SelectField, FloatField, SubmitField, FormField
 from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
 
 class PurchaseForm(FlaskForm):
@@ -15,6 +15,10 @@ class PurchaseForm(FlaskForm):
 
     cantidad_from = FloatField("Q", validators=[DataRequired(), NumberRange(message= "Debe ser una cantidad positiva", min=0.01)])
 
+    calcular= SubmitField("Calcular")
 
     aceptar = SubmitField("Aceptar")
+
     cancelar = SubmitField("Cancelar")
+
+    

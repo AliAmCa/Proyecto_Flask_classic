@@ -1,4 +1,7 @@
 import sqlite3
+from flask import request
+from config import API_KEY, URL_TASA_ESPECIFICA
+from criptomonedas.errors import APIError
 
 class ProcesaDatos:
     def __init__(self, file = ":memory:"):
@@ -42,3 +45,25 @@ class ProcesaDatos:
 
     def recupera_datos(self):
         return self.consulta("SELECT * FROM movimientos ORDER BY fecha")
+
+
+class CriptoValorModel:
+    def __init__(self, origen = "", destino = ""):
+        self.apikey = API_KEY
+        self.origen = origen
+        self.destino= destino
+
+        self.tasa = 0.0
+
+
+    def obtenerTasa(self):
+        respuesta = request.get(URL_TASA_ESPECIFICA.format(self.origen, self.destino, self.apikey))
+
+        if respuesta.status_code !=200:
+            raise APIError(respuesta.status_code, respuesta.json()['error'])
+        
+        self.tasa = round(respuesta.json()['rate'],2)
+        return self.tasa
+
+    def conversorMoneda(self):
+        return self.origen * self.tasa

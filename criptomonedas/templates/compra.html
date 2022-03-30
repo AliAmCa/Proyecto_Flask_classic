@@ -37,11 +37,17 @@
 
             {% endif%}
         </div>
-        <div class="button">
+        <div class="grid">
+            {{formulario.calcular()}}
+        </div>
+        <div class="grid">
+            {{total}}
+        </div>
+        <div class="grid">
             {{formulario.aceptar()}}
         </div>
-        <div class="button">
-            {{formulario.cancelar()}}
+        <div class="grid">
+            {{formulario.aceptar()}}
         </div>
 
     </form>

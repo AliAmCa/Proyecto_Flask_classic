@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Status {% endblock %}
+
+{% block contenido %}
+
+    <h1>ESTADO DE LA INVERSIÓN</h1>
+    
+    {% if contenido%}
+        <div class="grid">
+            <ul>
+                <li>Invertido:</li>
+                <li>{{Invertido}}</li>
+            </ul>
+
+            <ul>
+                <li>Valor actual:</li>
+                <li>{{valor}}</li>
+            </ul>
+        </div>
+
+
+    {% else %}
+
+        <h2>No hay datos</h2>
+    
+    {%endif%}
+
+
+
+{% endblock %}

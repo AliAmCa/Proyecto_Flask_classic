@@ -1,7 +1,9 @@
 import sqlite3
-from flask import request
+import requests
 from config import API_KEY, URL_TASA_ESPECIFICA
 from criptomonedas.errors import APIError
+from datetime import datetime
+
 
 class ProcesaDatos:
     def __init__(self, file = ":memory:"):
@@ -46,6 +48,29 @@ class ProcesaDatos:
     def recupera_datos(self):
         return self.consulta("SELECT * FROM movimientos ORDER BY fecha")
 
+    def inserta_datos(self, params):
+        fecha = datetime.today().strftime('%d-%m-%Y')
+        hora=datetime.today().strftime('%H:%M:%S')
+        params2 =[]
+        params2.append(fecha)
+        params2.append(hora)
+        params2 = params2 + params
+        self.consulta("""
+        INSERT INTO movimientos (fecha, hora, from, cantidad_from, to, cantidad_to)
+                values (?,?,?,?,?,?)
+        """, params2)
+
+    def consuta_total_inversion(self):
+        
+        datos = self.recupera_datos()
+        
+        total_euros_invertidos = 0
+        for movimiento in datos:
+            if movimiento['from'] == 'EUR':
+                total_euros_invertidos+= movimiento['cantidad_from']
+        
+        return total_euros_invertidos
+
 
 class CriptoValorModel:
     def __init__(self, origen = "", destino = ""):
@@ -57,8 +82,10 @@ class CriptoValorModel:
 
 
     def obtenerTasa(self):
-        respuesta = request.get(URL_TASA_ESPECIFICA.format(self.origen, self.destino, self.apikey))
-
+        
+        time = datetime.today().strftime('%H:%M:%S')
+        respuesta = requests.get(URL_TASA_ESPECIFICA.format(self.origen, self.destino,time, self.apikey))
+        
         if respuesta.status_code !=200:
             raise APIError(respuesta.status_code, respuesta.json()['error'])
         

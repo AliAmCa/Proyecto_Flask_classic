@@ -6,7 +6,8 @@
 
     <h1>COMPRA DE CRIPTOS</h1>
 
-    <form action="/compra" method = "post" class="form">
+    <form action="/purchase" method = "post" >
+       {{ formulario.hidden_tag() }} 
         <div class="grid">
             {{formulario.moneda_from.label()}}
             {{formulario.moneda_from()}}
@@ -40,14 +41,16 @@
         <div class="grid">
             {{formulario.calcular()}}
         </div>
-        <div class="grid">
-            {{formulario.cantidad_to.data}}
-        </div>
+        {% if contiene_cantidad_to %}
+            <div class="grid">
+                {{formulario.cantidad_to.data}}
+            </div>
+        {% endif %}
         <div class="grid">
             {{formulario.aceptar()}}
         </div>
         <div class="grid">
-            {{formulario.aceptar()}}
+            {{formulario.cancelar()}}
         </div>
 
     </form>

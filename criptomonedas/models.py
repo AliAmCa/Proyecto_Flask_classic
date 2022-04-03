@@ -1,6 +1,6 @@
 import sqlite3
 import requests
-from config import API_KEY, URL_TASA_ESPECIFICA
+from config import API_KEY, URL_TASA_ESPECIFICA,MONEDAS, URL_ALL_RATES
 from criptomonedas.errors import APIError
 from datetime import datetime
 
@@ -51,46 +51,96 @@ class ProcesaDatos:
     def inserta_datos(self, params):
         fecha = datetime.today().strftime('%d-%m-%Y')
         hora=datetime.today().strftime('%H:%M:%S')
-        params2 =[]
-        params2.append(fecha)
-        params2.append(hora)
+        params2 =[fecha, hora]
         params2 = params2 + params
         self.consulta("""
-        INSERT INTO movimientos (fecha, hora, from, cantidad_from, to, cantidad_to)
-                values (?,?,?,?,?,?)
+        INSERT INTO movimientos (fecha, Hora, from, cantidad_from, to, cantidad_to)
+                VALUES (?,?,?,?,?,?)
         """, params2)
 
-    def consuta_total_inversion(self):
+    def consulta_total_inversion(self):
         
         datos = self.recupera_datos()
-        
-        total_euros_invertidos = 0
+        totales =[]
+        for moneda in MONEDAS:
+            total_moneda=0.0
+            cfrom=0.0
+            cto=0.0
+            
+            for movimiento in datos:
+                if movimiento['from'] == moneda:
+                    cfrom += float(movimiento['cantidad_from'])
+                if movimiento['to']== moneda:
+                    cto+= float(movimiento['cantidad_to'])
+            
+            total_moneda=[]
+            total_moneda.append(moneda)
+            total_moneda.append(cto-cfrom)
+            totales.append(total_moneda)
+            
+        return totales
+
+    def consulta_euros_invertidos(self):
+        datos = self.recupera_datos()
+        total = 0.0
         for movimiento in datos:
             if movimiento['from'] == 'EUR':
-                total_euros_invertidos+= movimiento['cantidad_from']
-        
-        return total_euros_invertidos
+                 total += float(movimiento['cantidad_from'])
+        return total
+
 
 
 class CriptoValorModel:
-    def __init__(self, origen = "", destino = ""):
+    
+    def __init__(self, origen ="", destino = ""):
         self.apikey = API_KEY
         self.origen = origen
         self.destino= destino
-
         self.tasa = 0.0
 
 
-    def obtenerTasa(self):
-        
-        time = datetime.today().strftime('%H:%M:%S')
-        respuesta = requests.get(URL_TASA_ESPECIFICA.format(self.origen, self.destino,time, self.apikey))
+    def obtenerTasa(self,origen, destino):
+        self.origen = origen
+        self.destino = destino
+
+       
+        respuesta = requests.get(URL_TASA_ESPECIFICA.format(self.origen, self.destino, self.apikey))
         
         if respuesta.status_code !=200:
             raise APIError(respuesta.status_code, respuesta.json()['error'])
         
-        self.tasa = round(respuesta.json()['rate'],2)
+        self.tasa = float(respuesta.json()['rate'])
         return self.tasa
 
-    def conversorMoneda(self):
-        return self.origen * self.tasa
+    def conversorMoneda(self, cantidad):
+        
+        return cantidad * self.obtenerTasa()
+
+    def obtener_cambio_a_euros(self):
+        #Petición de todos los cambios de euros
+        respuesta = requests.get(URL_ALL_RATES.format('EUR', self.apikey))
+
+        if respuesta.status_code !=200:
+            raise APIError(respuesta.status_code, respuesta.json()['error'])
+
+        datos = respuesta.json()
+        cambio_todos= []
+
+
+        for dato in datos['rates']:
+            if dato['asset_id_quote'] in MONEDAS:
+                cambio =(dato['asset_id_quote'], (1/dato['rate']))
+                cambio_todos.append(cambio)
+
+        return cambio_todos
+    
+    
+            
+
+
+
+
+        
+
+
+

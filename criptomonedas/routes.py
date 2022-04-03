@@ -8,7 +8,7 @@ from criptomonedas.forms import  PurchaseForm
 
 ruta_db = app.config['RUTA_BBDD']
 data_manager = ProcesaDatos(ruta_db)
-
+api_manager = CriptoValorModel()
 
 @app.route("/")
 def inicio():
@@ -21,11 +21,11 @@ def inicio():
         flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")
         return render_template("movimientos.html",movimientos = [])
 
-@app.route("/purchase")
-def compra():
+@app.route("/purchase", methods= ['GET', 'POST'])
+def purchase():
     form = PurchaseForm()
    
-
+    choices = ['EUR','ETH','BNB','LUNA','SOL','BTC','BCH','LINK','ATOM','USDT']
     if request.method == 'GET':
         return render_template("compra.html", formulario = form)
 
@@ -34,59 +34,90 @@ def compra():
         #validar datos
         if form.validate():
         #recuperar datos de form y calcular la tasa
-            moneda_origen = str(form.moneda_from.data)
-            moneda_destino = str(form.moneda_to.data)
+            moneda_origen = choices[int(form.moneda_from.data)]
+            moneda_destino = choices[int(form.moneda_to.data)]
             cantidad_origen = form.cantidad_from.data
-            api_manager = CriptoValorModel(moneda_origen,moneda_destino)
-            movimientos= []
+           
+            #Si se da a cancelar, volver a inicio sin grabar datos
+            if form.cancelar.data:
+                return redirect(url_for('inicio'))
+
+
+            if moneda_destino == moneda_origen:
+                flash("La moneda destino no puede ser igual a la moneda origen")
+                return render_template("compra.html", formulario = form)
+
 
             #Si hay valor en cantidad destino y se ha presionado el boton aceptar
-            if form.cantidad_to.data and form.aceptar.data:
-                cantidad_destino= form.cantidad_to.data
-                #Introducir datos en base de datos
-                data_manager.inserta_datos(params = [moneda_origen, cantidad_origen, moneda_destino, cantidad_destino])
-                return redirect(url_for("inicio"))
+            if  form.aceptar.data:
+                try:
+                    tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
+                    cantidad_destino = cantidad_origen * tasa
+                
+                    #Introducir datos en base de datos
+                    data_manager.inserta_datos(params = [moneda_origen, cantidad_origen, moneda_destino, cantidad_destino])
+                    return redirect(url_for("inicio"))
+                except sqlite3.Error as e:
+                    flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")
+                    return render_template("compra.html", formulario = form)
 
             #Si no hay valor en cantidad destino y se ha presionado el boton calcular
-            elif not form.cantidad_to and form.calcular.data:
+            elif form.calcular.data:
+                movimientos={
+                    'moneda_from':"",
+                    'moneda_to': "",
+                    'cantidad_from': 0.0,
+                    'cantidad_to': 0.0
+                }
                
                 try:
-                    tasa = api_manager.obtenerTasa()
+                    tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
                     cantidad_destino = cantidad_origen * tasa
                     #Crear formulario con la tasa consultada
-                    
+                    movimientos['moneda_from']= form.moneda_from.data
+                    movimientos['moneda_to'] = form.moneda_to.data
                     movimientos['cantidad_from']= cantidad_origen
                     movimientos['cantidad_to'] = cantidad_destino
 
                     form_datos = PurchaseForm(data = movimientos)
 
-                    return render_template("compra.html",formulario =  form_datos, moneda_from = moneda_origen, moneda_to = moneda_destino)
+                    return render_template("compra.html",formulario =  form_datos, contiene_cantidad_to = True  )
                 except APIError as e:
                     flash("Se ha producido un error al consultar la api")
                     return render_template("compra.html", formulario = form)
             
-            #Si se da a cancelar, volver a inicio sin grabar datos
-            elif form.cancelar.data:
-                return redirect(url_for('inicio'))
-
 
         else:
+            flash("Datos no válidos")
             return render_template('compra.html',formulario = form)
 
 
 @app.route("/status")
 def estado():
+    
     #consultar movimientos
     try:
-        total_euros = data_manager.consuta_total_inversion()
-
-        api_manager = CriptoValorModel()
+        totales = data_manager.consulta_total_inversion()
+        cambios = api_manager.obtener_cambio_a_euros()
+        resultados =[]
         
-        
+        valor = 0.0
+        invertido = data_manager.consulta_euros_invertidos()
+        for total_moneda in totales:
+            moneda =total_moneda[0]
+            cantidad_moneda = total_moneda[1]
+            total_eur=0
+            for moneda_c in cambios:
+                if moneda == moneda_c[0]:
+                    total_eur= cantidad_moneda * moneda_c[1]
+                valor += total_eur
+            else:
+                valor += cantidad_moneda
 
+        resultados.append(invertido)
+        resultados.append(valor)
 
-
-        return render_template("status.html", contenido = "")
+        return render_template("status.html", contenido = resultados, invertido = resultados[0], valor = round(resultados[1],2))
 
     except sqlite3.Error as e:
         flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")

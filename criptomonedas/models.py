@@ -1,13 +1,13 @@
 import sqlite3
 import requests
-from config import API_KEY, URL_TASA_ESPECIFICA,MONEDAS, URL_ALL_RATES
+from config import API_KEY, URL_TASA_ESPECIFICA,MONEDAS, URL_ALL_RATES, RUTA_BBDD
 from criptomonedas.errors import APIError
 from datetime import datetime
 
 
 class ProcesaDatos:
-    def __init__(self, file = ":memory:"):
-        self.origen_datos = "data/movimientos.db"
+    def __init__(self):
+        self.origen_datos = RUTA_BBDD
 
 
     def crea_diccionario(self,cur):
@@ -46,17 +46,11 @@ class ProcesaDatos:
         return resultado
 
     def recupera_datos(self):
-        return self.consulta("SELECT * FROM movimientos ORDER BY fecha")
+        return self.consulta("SELECT * FROM mycriptos ORDER BY fecha")
 
     def inserta_datos(self, params):
-        fecha = datetime.today().strftime('%d-%m-%Y')
-        hora=datetime.today().strftime('%H:%M:%S')
-        params2 =[fecha, hora]
-        params2 = params2 + params
-        self.consulta("""
-        INSERT INTO movimientos (fecha, Hora, from, cantidad_from, to, cantidad_to)
-                VALUES (?,?,?,?,?,?)
-        """, params2)
+        
+        self.consulta("INSERT INTO mycriptos (fecha,hora,moneda_from, cantidad_from, moneda_to, cantidad_to) VALUES (?,?,?,?,?,?)", params)
 
     def consulta_total_inversion(self):
         
@@ -68,9 +62,9 @@ class ProcesaDatos:
             cto=0.0
             
             for movimiento in datos:
-                if movimiento['from'] == moneda:
+                if movimiento['moneda_from'] == moneda:
                     cfrom += float(movimiento['cantidad_from'])
-                if movimiento['to']== moneda:
+                if movimiento['moneda_to']== moneda:
                     cto+= float(movimiento['cantidad_to'])
             
             total_moneda=[]
@@ -84,7 +78,7 @@ class ProcesaDatos:
         datos = self.recupera_datos()
         total = 0.0
         for movimiento in datos:
-            if movimiento['from'] == 'EUR':
+            if movimiento['moneda_from'] == 'EUR':
                  total += float(movimiento['cantidad_from'])
         return total
 

@@ -4,10 +4,11 @@ import sqlite3
 from criptomonedas.errors import APIError
 from criptomonedas.models import CriptoValorModel, ProcesaDatos
 from criptomonedas.forms import  PurchaseForm
+from datetime import datetime
 
 
-ruta_db = app.config['RUTA_BBDD']
-data_manager = ProcesaDatos(ruta_db)
+#ruta_db = app.config['RUTA_BBDD']
+data_manager = ProcesaDatos()
 api_manager = CriptoValorModel()
 
 @app.route("/")
@@ -48,14 +49,15 @@ def purchase():
                 return render_template("compra.html", formulario = form)
 
 
-            #Si hay valor en cantidad destino y se ha presionado el boton aceptar
+            #Si se ha presionado el boton aceptar
             if  form.aceptar.data:
                 try:
                     tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
                     cantidad_destino = cantidad_origen * tasa
-                
+                    fecha = datetime.today().strftime('%d-%m-%Y')
+                    hora=datetime.today().strftime('%H:%M:%S')
                     #Introducir datos en base de datos
-                    data_manager.inserta_datos(params = [moneda_origen, cantidad_origen, moneda_destino, cantidad_destino])
+                    data_manager.inserta_datos(params = (fecha, hora,moneda_origen, cantidad_origen, moneda_destino, cantidad_destino))
                     return redirect(url_for("inicio"))
                 except sqlite3.Error as e:
                     flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")
@@ -63,25 +65,13 @@ def purchase():
 
             #Si no hay valor en cantidad destino y se ha presionado el boton calcular
             elif form.calcular.data:
-                movimientos={
-                    'moneda_from':"",
-                    'moneda_to': "",
-                    'cantidad_from': 0.0,
-                    'cantidad_to': 0.0
-                }
-               
+                
                 try:
                     tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
                     cantidad_destino = cantidad_origen * tasa
                     #Crear formulario con la tasa consultada
-                    movimientos['moneda_from']= form.moneda_from.data
-                    movimientos['moneda_to'] = form.moneda_to.data
-                    movimientos['cantidad_from']= cantidad_origen
-                    movimientos['cantidad_to'] = cantidad_destino
-
-                    form_datos = PurchaseForm(data = movimientos)
-
-                    return render_template("compra.html",formulario =  form_datos, contiene_cantidad_to = True  )
+                   
+                    return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino  )
                 except APIError as e:
                     flash("Se ha producido un error al consultar la api")
                     return render_template("compra.html", formulario = form)

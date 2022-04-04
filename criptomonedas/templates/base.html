@@ -3,16 +3,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/pico.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bulma.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css')}}">
-    <title>myCripto | {% block titulo %} {% endblock %}</title>
+    <title>myCriptos | {% block titulo %} {% endblock %}</title>
 </head>
 <body>
-    <header class="container">
-        myCRIPTO
+    <header class="logo">
+        my<span>CRIPTOS</span>
     </header>
     <nav class="container">
-        <ul>
+        <ul class = "menu">
             <li><a href="/">Inicio</a></li>
             <li><a href="/purchase">Compra</a></li>
             <li><a href="/status">Status</a></li>

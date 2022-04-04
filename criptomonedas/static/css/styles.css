@@ -1,7 +1,63 @@
-.table.movimientos{
-    height: 40vh;
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;500&display=swap');
+:root{
+    --teal-blue:#50808eff;
+    --apricot: #ffcab1ff;
+    --tea-green: #c1d7aeff;
+    --english-violet: #514663ff;
+    --chinese-violet: #8b687fff;
+
+
+
+}
+
+body{
+    background-color: var(--teal-blue);
+    color: whitesmoke;
+    font-family: 'Chakra Petch', Arial, Helvetica,sans-serif;
+}
+nav ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1.5rem;
+    margin-bottom:2rem;
+    background-color: var(--chinese-violet);
+    
+
+}
+.menu a{
+    
+    color: var(--tea-green);
+    font-size: 1.5rem;
+    font-weight: 500;
+    
+    padding: 2px 5px;
+    background-color:var(--english-violet);
+}
+.logo{
+    font-size: 2rem;
+    padding:2rem 0 2rem 1.5rem;
+ 
+    
+}
+.logo span{
+    color: var(--apricot)
+}
+.titulo-seccion{
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--tea-green);
+    
+}
+
+.table{
+    max-height: 40vh;
     overflow-y: auto;
     display: block;
+    
+    
 }
 
 .actions{
@@ -31,20 +87,30 @@
 .botones{
     display: flex;
     flex-direction: row;
-    justify-content:end
+    justify-content:space-around;
     
 }
-.botones .button{
-    padding: 0;
-    margin-left: 5px;
-    width: 95.84;
-   
-}
 
-.calc{
+
+.container_cantidadTo{
+    background-color: darkblue;
+    color: aliceblue;
     padding: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     
+}
+
+.actions{
+    display:flex;
+    flex-direction: row;
+    justify-content:right;
+    
+}
+.actions a{
+    padding-right: 2rem;
+    margin-right: 1rem;
+    color: var(--apricot);
+    font-size: 2rem;
 }

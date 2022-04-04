@@ -5,7 +5,7 @@
 
 {% block contenido %}
 
-    <h1>MOVIMIENTOS</h1>
+    <h1 class="titulo-seccion">MIS CRIPTOMONEDAS</h1>
     {% if movimientos %}
         <table class="table">
             <thead>
@@ -25,12 +25,12 @@
                     <tr>
                         
                         <td>{{item['fecha']}}</td>
-                        <td>{{item['Hora']}}</td>
-                        <td>{{item['from']}}</td>
+                        <td>{{item['hora']}}</td>
+                        <td>{{item['moneda_from']}}</td>
                         <td>{{item['cantidad_from']}}</td>
-                        <td>{{item['to']}}</td>
+                        <td>{{item['moneda_to']}}</td>
                         <td>{{item['cantidad_to']}}</td>
-                        <td>??{{item['from']}}</td>
+                        <td>{{item['cantidad_from']/item['cantidad_to']}} {{item['moneda_to']}}</td>
                     </tr>
                 {% endfor %}
             </tbody>

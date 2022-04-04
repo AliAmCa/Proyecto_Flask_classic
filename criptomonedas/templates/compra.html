@@ -41,18 +41,19 @@
         <div class="grid">
             {{formulario.calcular()}}
         </div>
-        {% if contiene_cantidad_to %}
-            <div class="grid">
-                {{formulario.cantidad_to.data}}
+        {% if cantidad_to %}
+            <div class="container_cantidadTo">
+                {{cantidad_to}}
             </div>
         {% endif %}
-        <div class="grid">
-            {{formulario.aceptar()}}
-        </div>
-        <div class="grid">
-            {{formulario.cancelar()}}
-        </div>
-
+        <section class="botones"></section>
+            <div class="button">
+                {{formulario.aceptar()}}
+            </div>
+            <div class="button">
+                {{formulario.cancelar()}}
+            </div>
+        </section>
     </form>
 
     

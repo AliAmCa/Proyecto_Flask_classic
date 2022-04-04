@@ -3,4 +3,5 @@ venv/
 config.py
 **__pycache__/
 .vscode/
-data
+data/mycriptos.db
+data/mycriptos.db-journal

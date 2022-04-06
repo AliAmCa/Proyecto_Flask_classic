@@ -35,13 +35,14 @@ body{
     font-size: 1.5rem;
     font-weight: 500;
     float:right;
-    padding: 2px 5px;
+    padding: 2px 1rem;
     background-color:var(--second-color);
+    text-shadow: var(--third-color) 2px 2px;
 }
 .logo{
     font-size: 2rem;
     padding:2rem 0 2rem 1.5rem;
- 
+    text-shadow: black 2px 2px;
     
 }
 .logo span{
@@ -54,8 +55,55 @@ body{
     color: var(--title-color);
     display: flex;
     justify-content: center;
-    
+    text-shadow: black 2px 2px;
 }
 
+.error_msg{
+    margin: 0;
+    padding: 0;
+    color: var(--second-color);
+    background-color: var(--title-color);
+    text-decoration: none;
+    list-style-type: none;
+    border: solid 2px;
+    border-color: red;
+    text-align: right;
+    background: url('../images/warning.png') left no-repeat;
+    background-size: 40px;
+    padding-left: 60px;
+}
+.error-container{
+    background-color: var(--title-color);
+    width: fit-content;
+    margin-left: 4rem;
+   
+    
+}
+.error-list{
+    margin: 0 ;
+    padding: 0 ;
+    background-color: var(--title-color);
+    text-decoration: none;
+    list-style-type: none;
+    border: solid 2px;
+    border-color: red;
+}
 
+.mi-footer{
+    padding: 5rem 0 0 0;
+    color: var(--title-color);
+    text-align:left ;
+    text-shadow: black 2px 2px;
+    margin-top: 3rem;
+    bottom: 2rem;
+   
+}
+footer span{
+    color: var(--logo-color);
+}
 
+footer >.container{
+    margin: 0;
+    padding-left: 2rem;
+    padding-bottom: 0;
+}

@@ -41,10 +41,6 @@ def purchase():
            
             #Si se da a cancelar, volver a inicio sin grabar datos
             
-            if form.cancelar.data:
-                return redirect(url_for('inicio'))
-
-
             if moneda_destino == moneda_origen:
                 flash("La moneda destino no puede ser igual a la moneda origen")
                 return render_template("compra.html", formulario = form)
@@ -65,12 +61,12 @@ def purchase():
                     return render_template("compra.html", formulario = form)
 
             #Si no hay valor en cantidad destino y se ha presionado el boton calcular
-            elif form.calcular.data:
+            else:
                 
                 try:
                     tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
                     cantidad_destino = cantidad_origen * tasa
-                    #Crear formulario con la tasa consultada
+                    #Pasar el formulario y la cantidad destino
                    
                     return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino  )
                 except APIError as e:

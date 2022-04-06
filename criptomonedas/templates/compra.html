@@ -39,22 +39,22 @@
         </div>
         <div class="calcular">
 
-            
+           
             {{formulario.calcular()}}
             
-           
+            {% if cantidad_to %}
                <p class="cantidad-to"> 
-                {% if cantidad_to %}
+               
                    {{cantidad_to}}
-                   {% endif %}
+                   
                 </p>
-           
+            {% endif %}
            
         </div>
         
         <div class="botones">
           
-                {{formulario.aceptar()}}
+                {{ formulario.aceptar() }}
            
                 <a class= "cancelar" href="/" role="button"></a>
                 

@@ -4,19 +4,19 @@
 
 {% block contenido %}
 
-    <h1>ESTADO DE LA INVERSIÓN</h1>
+    <h1 class="titulo-seccion">ESTADO DE LA INVERSIÓN</h1>
     
     {% if contenido%}
-        <div class="grid">
-            <ul>
-                <li>Invertido:</li>
-                <li>{{invertido}}</li>
+        <div class="status-container">
+            <ul class="status-list">
+                <li class="status-item">Invertido:</li>
+                <li class="status-item">{{invertido}}</li>
             </ul>
         </div>
-        <div class="grid">
-            <ul>
-                <li>Valor actual:</li>
-                <li>{{valor}}</li>
+        <div class="status-container">
+            <ul class="status-list">
+                <li class="status-item">Valor actual:</li>
+                <li class="status-item">{{valor}}</li>
             </ul>
         </div>
 

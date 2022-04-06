@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/movimientos.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/compra.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/status.css')}}">
+
     <title>myCriptos | {% block titulo %} {% endblock %}</title>
 </head>
 <body>
@@ -23,8 +25,8 @@
     
     {% with mensajes = get_flashed_messages() %}
         {% if mensajes %}
-            <section class="errores container">
-                <ul>
+            <section class="error-container">
+                <ul class="error-list">
                     {% for mensaje in mensajes %}
                         <li class="error_msg">{{mensaje}}</li>
                     {% endfor %}
@@ -39,9 +41,9 @@
 
     </section>
 
-    <footer>
+    <footer class="mi-footer">
         <div class="container">
-            © 2022. Todos los derechos reservados
+            © 2022  <span>Todos los derechos reservados</span>
         </div>
     </footer>
 </body>

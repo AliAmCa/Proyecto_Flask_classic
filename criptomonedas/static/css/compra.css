@@ -11,14 +11,16 @@ label{
 }
 
 .monedas label{
-    padding: 0 2rem;
+    padding: 1rem 1rem;
+    padding-right: 0;
+    font-size: larger;
 }
 
 .monedas select{
     color: var(--title-color);
     background-color: var(--third-color);
     border:none;
-    padding: 0;
+    padding: 1rem;
     margin: 0;
     border: 0;
     height:fit-content;
@@ -40,6 +42,9 @@ label{
 .cantidad-from input{
     max-width: fit-content;
     margin: 0;
+    background-color: var(--title-color);
+    color: var(--second-color);
+    border: none;
 }
 
 .calcular{
@@ -49,7 +54,16 @@ label{
 
 }
 
-
+.calculadora{
+    padding: 0 2rem;
+    margin: 0 3rem;
+    border: none;
+    height: 150px;
+    width: 150px;
+    max-height: fit-content;
+    background: url('../images/calc.png') center no-repeat;
+    background-size: contain;
+}
 
  #calcular{
     padding: 0 2rem;

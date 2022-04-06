@@ -39,4 +39,6 @@
     font-size: 2rem;
     text-align: center;
     border: none;
+    text-shadow: var(--third-color) 2px 2px;
+    
 }

@@ -1,39 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;500&display=swap');
 :root{
-    --teal-blue:#50808eff;
-    --apricot: #ffcab1ff;
-    --tea-green: #c1d7aeff;
-    --english-violet: #514663ff;
-    --chinese-violet: #8b687fff;
+    --bg-color: #3b3b58ff;
+    --logo-color: #c17c74ff;
+    --title-color: #d4f5f5ff;
+    --second-color: #00241bff;
+    --third-color: #4e878cff;
 
 
 
 }
 
 body{
-    background-color: var(--teal-blue);
-    color: whitesmoke;
+    background-color: var(--bg-color);
+    
+    background-size: cover;
+    color: var(--title-color);
     font-family: 'Chakra Petch', Arial, Helvetica,sans-serif;
 }
-nav ul{
+
+.navbar-list{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     padding: 1.5rem;
     margin-bottom:2rem;
-    background-color: var(--chinese-violet);
     
+    width: 100vh;
 
 }
-.menu a{
+.navbar-item a{
     
-    color: var(--tea-green);
+    color: var(--title-color);
     font-size: 1.5rem;
     font-weight: 500;
-    
+    float:right;
     padding: 2px 5px;
-    background-color:var(--english-violet);
+    background-color:var(--second-color);
 }
 .logo{
     font-size: 2rem;
@@ -42,75 +45,17 @@ nav ul{
     
 }
 .logo span{
-    color: var(--apricot)
+    color: var(--logo-color)
 }
 .titulo-seccion{
     font-family: 'Chakra Petch', sans-serif;
     font-weight: 700;
     font-size: 2rem;
-    color: var(--tea-green);
-    
-}
-
-.table{
-    max-height: 40vh;
-    overflow-y: auto;
-    display: block;
-    
-    
-}
-
-.actions{
+    color: var(--title-color);
     display: flex;
-    justify-content: space-between;
-
-}
-
-.form {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-around;
-
-}
-.grid{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-.container_buttons{
-    display: flex;
-    justify-content: space-around;
-    align-self: flex-end;
-
-}
-.botones{
-    display: flex;
-    flex-direction: row;
-    justify-content:space-around;
+    justify-content: center;
     
 }
 
 
-.container_cantidadTo{
-    background-color: darkblue;
-    color: aliceblue;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    
-}
 
-.actions{
-    display:flex;
-    flex-direction: row;
-    justify-content:right;
-    
-}
-.actions a{
-    padding-right: 2rem;
-    margin-right: 1rem;
-    color: var(--apricot);
-    font-size: 2rem;
-}

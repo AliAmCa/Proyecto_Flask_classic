@@ -1,0 +1,42 @@
+.table{
+    
+    max-height: 40vh;
+    overflow-y: auto;
+    display: block;
+    background-color: var(--background-color);
+    border: solid 5px;
+    border-color: var(--second-color);
+    margin: 2rem;
+    
+    
+}
+.table thead {
+    text-align: center;
+    font-size: larger;
+    background-color: var(--third-color);
+    color: var(--title-color);
+    border-bottom: solid 2px ;
+    
+}
+.table thead th{
+    color: var(--title-color);
+    text-align: center;
+    font-size: larger;
+    border-bottom: solid 2px ;
+    border-color: var(--second-color);
+}
+
+.actions{
+    display: flex;
+    justify-content:right;
+
+}
+.actions a{
+    padding: 0 2rem 0 2rem;
+    background-color: var(--second-color);
+    margin-right: 1rem;
+    color: var(--title-color);
+    font-size: 2rem;
+    text-align: center;
+    border: none;
+}

@@ -3,8 +3,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/bulma.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/pico.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/styles.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/movimientos.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/compra.css')}}">
     <title>myCriptos | {% block titulo %} {% endblock %}</title>
 </head>
 <body>
@@ -12,10 +14,10 @@
         my<span>CRIPTOS</span>
     </header>
     <nav class="container">
-        <ul class = "menu">
-            <li><a href="/">Inicio</a></li>
-            <li><a href="/purchase">Compra</a></li>
-            <li><a href="/status">Status</a></li>
+        <ul class = "navbar-list">
+            <li class="navbar-item"><a href="/">Inicio</a></li>
+            <li class="navbar-item"><a href="/purchase">Compra</a></li>
+            <li class="navbar-item"><a href="/status">Status</a></li>
         </ul>
     </nav>
     

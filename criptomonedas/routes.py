@@ -40,6 +40,7 @@ def purchase():
             cantidad_origen = form.cantidad_from.data
            
             #Si se da a cancelar, volver a inicio sin grabar datos
+            
             if form.cancelar.data:
                 return redirect(url_for('inicio'))
 

@@ -22,13 +22,13 @@ class PurchaseForm(FlaskForm):
 
     cantidad_from = FloatField("Q:", validators=[DataRequired(message= "Falta la cantidad"), NumberRange(message= "Debe ser una cantidad positiva", min=0.000001)])
 
-    calcular= SubmitField("Calcular")
+    calcular= SubmitField("")
 
     #cantidad_to = FloatField("Q:")
 
-    aceptar = SubmitField("Aceptar")
+    aceptar = SubmitField("")
 
-    cancelar = SubmitField("Cancelar")
+    
 
     
 

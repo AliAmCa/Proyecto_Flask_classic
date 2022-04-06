@@ -4,11 +4,11 @@
 
 {% block contenido %}
 
-    <h1>COMPRA DE CRIPTOS</h1>
+    <h1 class="titulo-seccion">COMPRA DE CRIPTOS</h1>
 
     <form action="/purchase" method = "post" >
        {{ formulario.hidden_tag() }} 
-        <div class="grid">
+        <div class="monedas">
             {{formulario.moneda_from.label()}}
             {{formulario.moneda_from()}}
             {% if formulario.moneda_from.errors %}
@@ -17,8 +17,7 @@
                 {% endfor%}
 
             {% endif%}
-        </div>
-        <div class="grid">
+        
             {{formulario.moneda_to.label()}}
             {{formulario.moneda_to()}}
             {% if formulario.moneda_to.errors %}
@@ -28,7 +27,7 @@
 
             {% endif%}
         </div>
-        <div class="grid">
+        <div class="cantidad-from">
             {{formulario.cantidad_from.label()}}
             {{formulario.cantidad_from()}}
             {% if formulario.cantidad_from.errors %}
@@ -38,22 +37,29 @@
 
             {% endif%}
         </div>
-        <div class="grid">
+        <div class="calcular">
+
+            
             {{formulario.calcular()}}
+            
+           
+               <p class="cantidad-to"> 
+                {% if cantidad_to %}
+                   {{cantidad_to}}
+                   {% endif %}
+                </p>
+           
+           
         </div>
-        {% if cantidad_to %}
-            <div class="container_cantidadTo">
-                {{cantidad_to}}
-            </div>
-        {% endif %}
-        <section class="botones"></section>
-            <div class="button">
+        
+        <div class="botones">
+          
                 {{formulario.aceptar()}}
-            </div>
-            <div class="button">
-                {{formulario.cancelar()}}
-            </div>
-        </section>
+           
+                <a class= "cancelar" href="/" role="button"></a>
+                
+            
+        </div>
     </form>
 
     

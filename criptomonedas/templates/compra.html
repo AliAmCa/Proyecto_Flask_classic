@@ -29,7 +29,7 @@
         </div>
         <div class="cantidad-from">
             {{formulario.cantidad_from.label()}}
-            {{formulario.cantidad_from()}}
+            {{formulario.cantidad_from(type = "number", step = "0.01")}}
             {% if formulario.cantidad_from.errors %}
                 {%for error in formulario.cantidad_from.errors %}
                     <p class="error">{{error}}</p>
@@ -41,7 +41,7 @@
 
            
             {{formulario.calcular()}}
-            
+            {{formulario.cantidad_to}}
             {% if cantidad_to %}
                <p class="cantidad-to"> 
                

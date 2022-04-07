@@ -74,22 +74,24 @@ label{
     max-height: fit-content;
     background: url('../images/calc.png')   center no-repeat;
     background-size: contain;
+    color:rgba(0, 0,0,0)
 }
 .cantidad-to{
     margin: 50px;
     border: solid 3px;
     border-color: var(--logo-color);
-    color: var(--logo-color);
+    color: var(--title-color);
     padding: 0.5rem 0.5rem;
     width: fit-content;
-    height: 50px;
+    height: fit-content;
+    font-size:50px;
 }
 
 .botones{
     display: flex;
     flex-direction: row;
     margin:4rem;
-    justify-content: space-between;
+    justify-content:right;
 }
 #aceptar, .cancelar{
     width: 25%;
@@ -99,13 +101,14 @@ label{
     
 }
 #aceptar{
-    background: url('../images/acept.png') center no-repeat;
+    background: url('../images/checkmark.png') center no-repeat;
     background-size: contain;
-    margin-top: 8px;
+    
+    color:rgba(0, 0,0,0)
 }
 
 .cancelar{
-    background: url('../images/cancel.png') center no-repeat;
+    background: url('../images/abort-g7cd81d793_640.png') center no-repeat;
     background-size:contain;
 
     shape-image-threshold: inherit;

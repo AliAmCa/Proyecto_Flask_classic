@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;500&display=swap');
 :root{
-    --bg-color: #3b3b58ff;
+    --bg-color: #313149;
     --logo-color: #c17c74ff;
     --title-color: #d4f5f5ff;
     --second-color: #00241bff;
@@ -12,11 +12,21 @@
 }
 
 body{
+    display: block;
+    
     background-color: var(--bg-color);
     
     background-size: cover;
     color: var(--title-color);
     font-family: 'Chakra Petch', Arial, Helvetica,sans-serif;
+    
+}
+.navbar-container{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 2rem;
 }
 
 .navbar-list{
@@ -24,7 +34,7 @@ body{
     flex-direction: row;
     justify-content: space-around;
     padding: 1.5rem;
-    margin-bottom:2rem;
+    
     
     width: 100vh;
 

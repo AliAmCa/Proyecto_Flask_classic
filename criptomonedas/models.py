@@ -82,6 +82,18 @@ class ProcesaDatos:
                  total += float(movimiento['cantidad_from'])
         return total
 
+    def consulta_cantidad_moneda(self,moneda):
+        datos = self.recupera_datos()
+        total_from= 0.0
+        total_to = 0.0
+        for movimiento in datos:
+            if movimiento['moneda_from'] == moneda:
+                 total_from += float(movimiento['cantidad_from'])
+        
+            if movimiento['moneda_to'] == moneda:
+                total_to += float(movimiento['cantidad_to'])
+
+        return total_to - total_from
 
 
 class CriptoValorModel:

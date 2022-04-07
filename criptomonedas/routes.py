@@ -26,7 +26,7 @@ def inicio():
 def purchase():
     form = PurchaseForm()
    
-    choices = ['EUR','ETH','BNB','LUNA','SOL','BTC','BCH','LINK','ATOM','USDT']
+    
     if request.method == 'GET':
         return render_template("compra.html", formulario = form)
 
@@ -35,8 +35,8 @@ def purchase():
         #validar datos
         if form.validate():
         #recuperar datos de form y calcular la tasa
-            moneda_origen = choices[int(form.moneda_from.data)]
-            moneda_destino = choices[int(form.moneda_to.data)]
+            moneda_origen = form.moneda_from.data
+            moneda_destino = form.moneda_to.data
             cantidad_origen = form.cantidad_from.data
            
             #Si se da a cancelar, volver a inicio sin grabar datos
@@ -47,27 +47,38 @@ def purchase():
 
 
             #Si se ha presionado el boton aceptar
-            if  form.aceptar.data:
-                try:
-                    tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
-                    cantidad_destino = cantidad_origen * tasa
-                    fecha = datetime.today().strftime('%d-%m-%Y')
-                    hora=datetime.today().strftime('%H:%M:%S')
-                    #Introducir datos en base de datos
-                    data_manager.inserta_datos(params = (fecha, hora,moneda_origen, cantidad_origen, moneda_destino, cantidad_destino))
-                    return redirect(url_for("inicio"))
-                except sqlite3.Error as e:
-                    flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")
+            if  form.aceptar.data and form.cantidad_to.data:
+                #Comprobar que tienes la moneda origen y suficiente cantidad
+                hay_fondos=True
+                if moneda_origen != 'EUR':
+                    cantidad_disponible = data_manager.consulta_cantidad_moneda(moneda_origen)
+                    hay_fondos= True if cantidad_disponible >= cantidad_origen else False
+
+                if hay_fondos:
+  
+                    try:
+                        tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
+                        cantidad_destino = cantidad_origen * tasa
+                        fecha = datetime.today().strftime('%d-%m-%Y')
+                        hora=datetime.today().strftime('%H:%M:%S')
+                        #Introducir datos en base de datos
+                        data_manager.inserta_datos(params = (fecha, hora,moneda_origen, cantidad_origen, moneda_destino, cantidad_destino))
+                        return redirect(url_for("inicio"))
+                    except sqlite3.Error as e:
+                        flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")
+                        return render_template("compra.html", formulario = form)
+                else:
+                    flash("No dispones de suficientes fondos")
                     return render_template("compra.html", formulario = form)
 
             #Si no hay valor en cantidad destino y se ha presionado el boton calcular
-            else:
+            elif form.calcular.data:
                 
                 try:
                     tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
                     cantidad_destino = cantidad_origen * tasa
                     #Pasar el formulario y la cantidad destino
-                   
+                    form.cantidad_to.data = cantidad_destino
                     return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino  )
                 except APIError as e:
                     flash("Se ha producido un error al consultar la api")

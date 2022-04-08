@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 
 {% block titulo %} Purchase {% endblock %}
+{% block menu%}
+    <nav class="navbar-container">
+        <ul class = "navbar-list">
+            <li class="navbar-item"><a href="/">Inicio</a></li>
+            <li class="navbar-item"><p class="item-desactivado">Compra</p></li>
+            <li class="navbar-item"><a href="/status">Estado</a></li>
+        </ul>
+    </nav>
+{% endblock %}
 
 {% block contenido %}
 
@@ -9,7 +18,7 @@
     <form action="/purchase" method = "post" >
        {{ formulario.hidden_tag() }} 
         <div class="monedas">
-            {{formulario.moneda_from.label()}}
+            <p class="moneda-label">{{formulario.moneda_from.label()}}</p>
             {{formulario.moneda_from()}}
             {% if formulario.moneda_from.errors %}
                 {%for error in formulario.moneda_from.errors %}
@@ -18,7 +27,7 @@
 
             {% endif%}
         
-            {{formulario.moneda_to.label()}}
+            <p class="moneda-label">{{formulario.moneda_to.label()}}</p>
             {{formulario.moneda_to()}}
             {% if formulario.moneda_to.errors %}
                 {%for error in formulario.moneda_to.errors %}
@@ -27,33 +36,43 @@
 
             {% endif%}
         </div>
-        <div class="cantidad-from">
-            {{formulario.cantidad_from.label()}}
-            {{formulario.cantidad_from(type = "number", step = "0.01")}}
-            {% if formulario.cantidad_from.errors %}
-                {%for error in formulario.cantidad_from.errors %}
-                    <p class="error">{{error}}</p>
-                {% endfor%}
+        <section class="cantidades">
+            <div class="cantidad-from">
+                {{formulario.cantidad_from.label()}}
+                {{formulario.cantidad_from(type = "number", step = "0.01")}}
+                {% if formulario.cantidad_from.errors %}
+                    {%for error in formulario.cantidad_from.errors %}
+                        <p class="error">{{error}}</p>
+                    {% endfor%}
 
-            {% endif%}
-        </div>
-        <div class="calcular">
+                {% endif%}
+            </div>
+            <div class="calcular">
 
-           
-            {{formulario.calcular()}}
-            {{formulario.cantidad_to}}
-            {% if cantidad_to %}
-               <p class="cantidad-to"> 
-               
-                   {{cantidad_to}}
-                   
-                </p>
-            {% endif %}
-           
-        </div>
-        
+            
+                {{formulario.calcular()}}
+                {{formulario.cantidad_to}}
+                
+            
+            </div>
+        </section>
+
+        <section class="section-to-pu">
+            <div class="div-to">
+                {% if cantidad_to %}
+                    <p class="label-to">Q: </p>
+                    <p class="item-to"> {{cantidad_to}}</p>
+                {% endif %}
+            </div>
+            <div class="div-to">
+                {% if precio_unitario %}
+                    <p class="label-to">P.U:  </p>
+                    <p class="item-to"> {{precio_unitario}}</p>  
+                {% endif %}
+            </div>
+        </section>
         <div class="botones">
-          
+                {{formulario.campos}}
                 {{ formulario.aceptar() }}
            
                 <a class= "cancelar" href="/" role="button"></a>

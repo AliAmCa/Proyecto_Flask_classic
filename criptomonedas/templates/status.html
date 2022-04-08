@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block titulo %} Status {% endblock %}
-
+{% block menu%}
+    <nav class="navbar-container">
+        <ul class = "navbar-list">
+            <li class="navbar-item"><a href="/">Inicio</a></li>
+            <li class="navbar-item"><a href="/purchase">Compra</a></li>
+            <li class="navbar-item"><p class="item-desactivado">Estado</p></li>
+        </ul>
+    </nav>
+{% endblock %}
 {% block contenido %}
 
     <h1 class="titulo-seccion">ESTADO DE LA INVERSIÓN</h1>
@@ -10,23 +18,26 @@
         <div class="status-container">
             <ul class="status-list">
                 <li class="status-item">Invertido:</li>
-                <li class="status-item">{{invertido}}</li>
+                <li class="status-item">{{contenido[0]}}</li>
             </ul>
         </div>
         <div class="status-container">
             <ul class="status-list">
                 <li class="status-item">Valor actual:</li>
-                <li class="status-item">{{valor}}</li>
+                <li class="status-item">{{contenido[1]}}</li>
             </ul>
         </div>
 
 
     {% else %}
 
-        <h2>No hay datos</h2>
+        <div class="no-movs"><h1 class="subtitulo">Sin datos</h1></div>
     
     {%endif%}
 
-
+    <p class="actions">
+        <a href="/" role="button">Volver</a>
+        
+    </p>
 
 {% endblock %}

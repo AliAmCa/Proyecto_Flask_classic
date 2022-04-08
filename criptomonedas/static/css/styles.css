@@ -39,7 +39,7 @@ body{
     width: 100vh;
 
 }
-.navbar-item a{
+.navbar-item a,p{
     
     color: var(--title-color);
     font-size: 1.5rem;
@@ -48,6 +48,10 @@ body{
     padding: 2px 1rem;
     background-color:var(--second-color);
     text-shadow: var(--third-color) 2px 2px;
+}
+
+.item-desactivado{
+    color: var(--bg-color)
 }
 .logo{
     font-size: 2rem;

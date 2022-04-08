@@ -12,16 +12,16 @@ def validar_moneda_to(formulario, campo):
 
 class PurchaseForm(FlaskForm):
 
-    moneda_from = SelectField("From", validators = [DataRequired(message= "Falta la moneda origen")], 
+    moneda_from = SelectField("From:", validators = [DataRequired(message= "Falta la moneda origen")], 
     choices= ['EUR','ETH','BNB','LUNA','SOL','BTC','BCH','LINK','ATOM','USDT' ])
 
-    moneda_to = SelectField("To", validators = [DataRequired(message= "Falta la moneda origen"), validar_moneda_to], 
+    moneda_to = SelectField("To:", validators = [DataRequired(message= "Falta la moneda origen"), validar_moneda_to], 
     choices= ['EUR','ETH','BNB','LUNA','SOL','BTC','BCH','LINK','ATOM','USDT' ])
 
     cantidad_from = FloatField("Q:", validators=[DataRequired(message= "Falta la cantidad"), NumberRange(message= "Debe ser una cantidad positiva", min=0.00000001)])
 
     calcular= SubmitField("calcular")
-
+    
     cantidad_to = HiddenField()
     campos = HiddenField()
     aceptar = SubmitField("aceptar")

@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
 {% block titulo %} Movimientos {% endblock %}
-
+{% block menu%}
+    <nav class="navbar-container">
+        <ul class = "navbar-list">
+            <li class="navbar-item"><p class="item-desactivado">Inicio</p></li>
+            <li class="navbar-item"><a href="/purchase">Compra</a></li>
+            <li class="navbar-item"><a href="/status">Estado</a></li>
+        </ul>
+    </nav>
+{% endblock %}
 
 {% block contenido %}
 
-    <h1 class="titulo-seccion">MIS CRIPTOMONEDAS</h1>
+    <h1 class="titulo-seccion">MOVIMIENTOS</h1>
     {% if movimientos %}
         <table class="table">
             <thead>
@@ -36,14 +44,14 @@
             </tbody>
         </table>
     {% else %}
-        <h1>No hay movimientos</h1>
+        <div class="no-movs"><h1 class="subtitulo">Sin movimientos</h1></div>
     {% endif %}
 
     
 
     <p class="actions">
-        <a href="/status" role="button">Status</a>
-        <a href="/purchase" role="button">+</a>
+        <a class="buttons" href="/status" role="button">Estado</a>
+        <a class="buttons" href="/purchase" role="button">+</a>
     </p>
 
 {% endblock %}

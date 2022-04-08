@@ -1,5 +1,8 @@
 label{
-    color:var(--title-color)
+    color:var(--title-color);
+    font-size: 2rem;
+    text-shadow:var(--third-color) 2px 2px; 
+    
 }
 
 .monedas{
@@ -10,10 +13,14 @@ label{
 
 }
 
-.monedas label{
+.moneda-label{
     padding: 1rem 1rem;
     padding-right: 0;
-    font-size: larger;
+    background-color: var(--bg-color);
+    margin: 0;
+    margin-left: 3rem;
+    padding-bottom: 2rem;
+    
 }
 
 .monedas select{
@@ -25,7 +32,7 @@ label{
     border: 0;
     height:fit-content;
     max-width: 150px;
-
+    margin-top: 1rem;
 
 }
 
@@ -39,52 +46,69 @@ label{
 .cantidad-from label{
     padding: 1rem 2rem;
 }
-.cantidad-from input{
+#cantidad_from {
     max-width: fit-content;
     margin: 0;
     background-color: var(--title-color);
     color: var(--second-color);
     border: none;
+    min-width: 150px;
+    margin-top: 1rem;
 }
-
-.calcular{
+.cantidades{
     display: flex;
     flex-direction: row;
-    justify-content:left ;
+    justify-content:center;
+    margin: 0;
+}
+.calcular{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
 
 }
 
-.calculadora{
-    padding: 0 2rem;
-    margin: 0 3rem;
-    border: none;
-    height: 150px;
-    width: 150px;
-    max-height: fit-content;
-    background: url('../images/calc.png') center no-repeat;
-    background-size: contain;
-}
 
- #calcular{
+
+#calcular{
     padding: 0 2rem;
     margin: 0 3rem;
     border: none;
-    height: 150px;
-    width: 150px;
+    height: 100px;
+    width: 100px;
     max-height: fit-content;
     background: url('../images/calc.png')   center no-repeat;
     background-size: contain;
-    color:rgba(0, 0,0,0)
+    color:rgba(0, 0,0,0);
+    margin-bottom: 0.5rem;
 }
-.cantidad-to{
-    margin: 50px;
+.section-to-pu{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 20vh;
+}
+.div-to{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+.label-to{
+    background-color: var(--bg-color);
+    margin-top: 0.25rem;
+    position: relative;
+}
+.item-to{
+    position: relative;
     border: solid 3px;
-    border-color: var(--logo-color);
+    border-color: var(--title-color);
     color: var(--title-color);
     padding: 0.5rem 0.5rem;
+    margin-bottom: 20px;
     width: fit-content;
     height: fit-content;
-    font-size:50px;
+    font-size:25px;
+    background-color: var(--third-color);
 }
 
 .botones{
@@ -92,12 +116,14 @@ label{
     flex-direction: row;
     margin:4rem;
     justify-content:right;
+    position: relative;
+    bottom: -130px;
 }
 #aceptar, .cancelar{
     width: 25%;
     margin: 0;
     border: none;
-    height: 150px;
+    height: 100px;
     
 }
 #aceptar{

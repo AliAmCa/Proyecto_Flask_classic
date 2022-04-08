@@ -29,9 +29,10 @@
 .actions{
     display: flex;
     justify-content:right;
+    background-color: var(--bg-color);
 
 }
-.actions a{
+.buttons{
     padding: 0 2rem 0 2rem;
     background-color: var(--second-color);
     margin-right: 1rem;
@@ -41,4 +42,14 @@
     border: none;
     text-shadow: var(--third-color) 2px 2px;
     
+    
+}
+
+.no-movs {
+    display:flex;
+    justify-content: center;
+
+}
+.subtitulo{
+    color:var(--logo-color)
 }

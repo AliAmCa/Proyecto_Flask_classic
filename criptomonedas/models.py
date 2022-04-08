@@ -56,21 +56,25 @@ class ProcesaDatos:
         
         datos = self.recupera_datos()
         totales =[]
-        for moneda in MONEDAS:
-            total_moneda=0.0
-            cfrom=0.0
-            cto=0.0
+        if datos:
+            for moneda in MONEDAS:
+                total_moneda=0.0
+                cfrom=0.0
+                cto=0.0
+                
+                for movimiento in datos:
+                    if movimiento['moneda_from'] == moneda:
+                        cfrom += float(movimiento['cantidad_from'])
+                    if movimiento['moneda_to']== moneda:
+                        cto+= float(movimiento['cantidad_to'])
+                
+                if (cto-cfrom)>0:
+                    total_moneda=[]
+                    total_moneda.append(moneda)
+                    total_moneda.append(cto-cfrom)
+
+                    totales.append(total_moneda)
             
-            for movimiento in datos:
-                if movimiento['moneda_from'] == moneda:
-                    cfrom += float(movimiento['cantidad_from'])
-                if movimiento['moneda_to']== moneda:
-                    cto+= float(movimiento['cantidad_to'])
-            
-            total_moneda=[]
-            total_moneda.append(moneda)
-            total_moneda.append(cto-cfrom)
-            totales.append(total_moneda)
             
         return totales
 
@@ -79,8 +83,10 @@ class ProcesaDatos:
         total = 0.0
         for movimiento in datos:
             if movimiento['moneda_from'] == 'EUR':
-                 total += float(movimiento['cantidad_from'])
+                total += float(movimiento['cantidad_from'])
         return total
+        
+            
 
     def consulta_cantidad_moneda(self,moneda):
         datos = self.recupera_datos()
@@ -130,13 +136,12 @@ class CriptoValorModel:
             raise APIError(respuesta.status_code, respuesta.json()['error'])
 
         datos = respuesta.json()
-        cambio_todos= []
+        cambio_todos= {}
 
 
         for dato in datos['rates']:
             if dato['asset_id_quote'] in MONEDAS:
-                cambio =(dato['asset_id_quote'], (1/dato['rate']))
-                cambio_todos.append(cambio)
+                cambio_todos[dato['asset_id_quote']]= 1/dato['rate']
 
         return cambio_todos
     

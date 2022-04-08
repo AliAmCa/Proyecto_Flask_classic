@@ -50,6 +50,11 @@ def purchase():
             if  form.aceptar.data and form.cantidad_to.data:
                 #Comprobar que tienes la moneda origen y suficiente cantidad
                 hay_fondos=True
+
+                if form.campos.data[0]!=form.moneda_from.data or form.campos.data[1]!=form.moneda_to.data or form.campos.data[2]!=form.cantidad_from.data:
+                    flash("Se ha producido un cambio en los datos calculados")
+                    return render_template("compra.html", formulario = form)
+
                 if moneda_origen != 'EUR':
                     cantidad_disponible = data_manager.consulta_cantidad_moneda(moneda_origen)
                     hay_fondos= True if cantidad_disponible >= cantidad_origen else False
@@ -71,15 +76,17 @@ def purchase():
                     flash("No dispones de suficientes fondos")
                     return render_template("compra.html", formulario = form)
 
-            #Si no hay valor en cantidad destino y se ha presionado el boton calcular
+            #Si se ha presionado el boton calcular
             elif form.calcular.data:
                 
                 try:
                     tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
                     cantidad_destino = cantidad_origen * tasa
                     #Pasar el formulario y la cantidad destino
+                    form.campos.data = (moneda_origen,moneda_destino, cantidad_origen)
                     form.cantidad_to.data = cantidad_destino
-                    return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino  )
+                    pu = cantidad_origen/cantidad_destino
+                    return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino, precio_unitario = pu  )
                 except APIError as e:
                     flash("Se ha producido un error al consultar la api")
                     return render_template("compra.html", formulario = form)
@@ -96,26 +103,26 @@ def estado():
     #consultar movimientos
     try:
         totales = data_manager.consulta_total_inversion()
-        cambios = api_manager.obtener_cambio_a_euros()
         resultados =[]
-        
-        valor = 0.0
-        invertido = data_manager.consulta_euros_invertidos()
-        for total_moneda in totales:
-            moneda =total_moneda[0]
-            cantidad_moneda = total_moneda[1]
-            total_eur=0
-            for moneda_c in cambios:
-                if moneda == moneda_c[0]:
-                    total_eur= cantidad_moneda * moneda_c[1]
-                valor += total_eur
-            else:
-                valor += cantidad_moneda
+        if totales:
+            cambios = api_manager.obtener_cambio_a_euros()
+            
+            
+            valor = 0.0
+            invertido = data_manager.consulta_euros_invertidos()
+            for total_moneda in totales:
+                moneda =total_moneda[0]
+                cantidad_moneda = total_moneda[1]
+                total_eur=0
+                if cantidad_moneda>0:
+                    total_eur= cantidad_moneda * cambios[moneda]
+                    valor += total_eur
+                
+            resultados.append(invertido)
+            resultados.append(round(valor,2))
 
-        resultados.append(invertido)
-        resultados.append(valor)
 
-        return render_template("status.html", contenido = resultados, invertido = resultados[0], valor = round(resultados[1],2))
+        return render_template("status.html", contenido = resultados)
 
     except sqlite3.Error as e:
         flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")

@@ -51,7 +51,7 @@ def purchase():
                 #Comprobar que tienes la moneda origen y suficiente cantidad
                 hay_fondos=True
 
-                if form.campos.data[0]!=form.moneda_from.data or form.campos.data[1]!=form.moneda_to.data or form.campos.data[2]!=form.cantidad_from.data:
+                if form.moneda_from.data not in form.campos.data and form.moneda_to.data not in form.campos.data and str(form.cantidad_from.data) not in form.campos.data:
                     flash("Se ha producido un cambio en los datos calculados")
                     return render_template("compra.html", formulario = form)
 
@@ -78,19 +78,31 @@ def purchase():
 
             #Si se ha presionado el boton calcular
             elif form.calcular.data:
-                
-                try:
-                    tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
-                    cantidad_destino = cantidad_origen * tasa
-                    #Pasar el formulario y la cantidad destino
-                    form.campos.data = (moneda_origen,moneda_destino, cantidad_origen)
-                    form.cantidad_to.data = cantidad_destino
-                    pu = cantidad_origen/cantidad_destino
-                    return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino, precio_unitario = pu  )
-                except APIError as e:
-                    flash("Se ha producido un error al consultar la api")
+                hay_fondos=True
+                #Comprobar que tienes la moneda origen y suficiente cantidad
+                if moneda_origen != 'EUR':
+                    cantidad_disponible = data_manager.consulta_cantidad_moneda(moneda_origen)
+                    hay_fondos= True if cantidad_disponible >= cantidad_origen else False
+
+                if hay_fondos:
+  
+                    try:
+                        tasa = api_manager.obtenerTasa(moneda_origen,moneda_destino)
+                        cantidad_destino = cantidad_origen * tasa
+                        #Pasar el formulario y la cantidad destino
+                        form.campos.data = (moneda_origen,moneda_destino, cantidad_origen)
+                        form.cantidad_to.data = cantidad_destino
+                        pu = cantidad_origen/cantidad_destino
+                        return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino, precio_unitario = pu  )
+                    except APIError as e:
+                        flash("Se ha producido un error al consultar la api")
+                        return render_template("compra.html", formulario = form)
+                else:
+                    flash("No dispones de suficientes fondos")
                     return render_template("compra.html", formulario = form)
-            
+            else:
+                flash("No se han calculado los datos correctamente, vuelva a intentarlo")
+                return render_template("compra.html", formulario = form)
 
         else:
             flash("Datos no válidos")
@@ -115,7 +127,10 @@ def estado():
                 cantidad_moneda = total_moneda[1]
                 total_eur=0
                 if cantidad_moneda>0:
-                    total_eur= cantidad_moneda * cambios[moneda]
+                    if moneda!= 'EUR':
+                        total_eur= cantidad_moneda * cambios[moneda]
+                    else:
+                        total_eur = cantidad_moneda
                     valor += total_eur
                 
             resultados.append(invertido)

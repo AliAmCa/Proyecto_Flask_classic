@@ -74,7 +74,7 @@ body{
 
 .error_msg{
     margin: 0;
-    padding: 0;
+    padding: 5px 60px;
     color: var(--second-color);
     background-color: var(--title-color);
     text-decoration: none;
@@ -84,7 +84,6 @@ body{
     text-align: right;
     background: url('../images/warning.png') left no-repeat;
     background-size: 40px;
-    padding-left: 60px;
 }
 .error-container{
     background-color: var(--title-color);

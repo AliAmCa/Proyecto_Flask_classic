@@ -116,6 +116,7 @@ def estado():
     try:
         totales = data_manager.consulta_total_inversion()
         resultados =[]
+        criptos =[]
         if totales:
             cambios = api_manager.obtener_cambio_a_euros()
             
@@ -129,15 +130,16 @@ def estado():
                 if cantidad_moneda>0:
                     if moneda!= 'EUR':
                         total_eur= cantidad_moneda * cambios[moneda]
+                        criptos.append(total_moneda)
                     else:
                         total_eur = cantidad_moneda
                     valor += total_eur
                 
-            resultados.append(invertido)
+            resultados.append(round(invertido,2))
             resultados.append(round(valor,2))
 
 
-        return render_template("status.html", contenido = resultados)
+        return render_template("status.html", contenido = resultados, saldoCriptos = criptos)
 
     except sqlite3.Error as e:
         flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")

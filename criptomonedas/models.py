@@ -80,10 +80,15 @@ class ProcesaDatos:
 
     def consulta_euros_invertidos(self):
         datos = self.recupera_datos()
-        total = 0.0
+        totalInvertido = 0.0
+        totalRecuperado = 0.0
+        total= 0.0
         for movimiento in datos:
             if movimiento['moneda_from'] == 'EUR':
-                total += float(movimiento['cantidad_from'])
+                totalInvertido += float(movimiento['cantidad_from'])
+            if movimiento['moneda_to'] == 'EUR':
+                totalRecuperado += float(movimiento['cantidad_to'])
+            total = totalInvertido -totalRecuperado
         return total
         
             

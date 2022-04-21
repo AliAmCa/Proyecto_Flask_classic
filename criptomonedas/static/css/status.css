@@ -14,6 +14,17 @@
     background-size: 100px;
     
 }
+.tabla{
+    display: flex;
+    justify-content:right;
+    margin-left: 50vh;
+
+}
+.table-criptos  td{
+    background-color: var(--white-color);
+    color: black;
+    
+}
 
 
 .status-item{

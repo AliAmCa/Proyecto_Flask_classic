@@ -28,6 +28,30 @@
             </ul>
         </div>
 
+        <section class="tabla">
+            <table class="table-criptos">
+                <thead class="cabecera">
+                    <tr class="cabecera">
+                        
+                        
+                        <th>Saldo Criptos</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in saldoCriptos %}
+                        <tr>
+                            
+                            <td>{{item[0]}}</td>
+                            <td>{{item[1]}}</td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </section>
+
 
     {% else %}
 

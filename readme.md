@@ -5,6 +5,7 @@ Aplicación de control de valores en criptomonedas
 ## Creación BBDD
 
 El fichero `crea_tabla.sql` contiene el modelo a seguir para crear la base de datos.
+Con SQLite crea una base de datos con el fichero indicado.
 
 ## Fichero .env
 

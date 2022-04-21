@@ -2,13 +2,17 @@
     
     max-height: 40vh;
     overflow-y: auto;
-    display: block;
+    
     background-color: var(--background-color);
     border: solid 5px;
     border-color: var(--second-color);
     margin: 2rem;
+    align-items: center;
     
     
+}
+.cabecera{
+    background-color: var(--third-color);
 }
 .table thead {
     text-align: center;

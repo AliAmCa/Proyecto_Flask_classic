@@ -16,8 +16,13 @@ def inicio():
 
     try:
         datos = data_manager.recupera_datos()
-        
-        return render_template("movimientos.html",movimientos = datos)
+        if isinstance(datos,dict):
+            lista =[]
+            lista.append(datos)
+            return render_template("movimientos.html",movimientos = lista)
+        else:
+            
+            return render_template("movimientos.html",movimientos = datos)
     except sqlite3.Error as e:
         flash("Se ha producido un error en la base de datos. Inténtelo de nuevo más tarde")
         return render_template("movimientos.html",movimientos = [])

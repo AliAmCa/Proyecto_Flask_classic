@@ -46,34 +46,41 @@ class ProcesaDatos:
         return resultado
 
     def recupera_datos(self):
-        return self.consulta("SELECT * FROM mycriptos ORDER BY fecha")
+        return self.consulta("SELECT * FROM movimientos ORDER BY fecha")
 
     def inserta_datos(self, params):
         
-        self.consulta("INSERT INTO mycriptos (fecha,hora,moneda_from, cantidad_from, moneda_to, cantidad_to) VALUES (?,?,?,?,?,?)", params)
+        self.consulta("INSERT INTO movimientos (fecha,hora,moneda_from, cantidad_from, moneda_to, cantidad_to) VALUES (?,?,?,?,?,?)", params)
 
     def consulta_total_inversion(self):
         
         datos = self.recupera_datos()
         totales =[]
         if datos:
-            for moneda in MONEDAS:
-                total_moneda=0.0
-                cfrom=0.0
-                cto=0.0
-                
-                for movimiento in datos:
-                    if movimiento['moneda_from'] == moneda:
-                        cfrom += float(movimiento['cantidad_from'])
-                    if movimiento['moneda_to']== moneda:
-                        cto+= float(movimiento['cantidad_to'])
-                
-                if (cto-cfrom)>0:
-                    total_moneda=[]
-                    total_moneda.append(moneda)
-                    total_moneda.append(cto-cfrom)
+            if isinstance(datos,dict):
+                total_moneda=[]
+                total_moneda.append(datos['moneda_to'])
+                total_moneda.append(datos['cantidad_to'])
 
-                    totales.append(total_moneda)
+                totales.append(total_moneda)
+            else:
+                for moneda in MONEDAS:
+                    total_moneda=0.0
+                    cfrom=0.0
+                    cto=0.0
+                    
+                    for movimiento in datos:
+                        if movimiento['moneda_from'] == moneda:
+                            cfrom += float(movimiento['cantidad_from'])
+                        if movimiento['moneda_to']== moneda:
+                            cto+= float(movimiento['cantidad_to'])
+                    
+                    if (cto-cfrom)>0:
+                        total_moneda=[]
+                        total_moneda.append(moneda)
+                        total_moneda.append(cto-cfrom)
+
+                        totales.append(total_moneda)
             
             
         return totales
@@ -83,12 +90,19 @@ class ProcesaDatos:
         totalInvertido = 0.0
         totalRecuperado = 0.0
         total= 0.0
-        for movimiento in datos:
-            if movimiento['moneda_from'] == 'EUR':
-                totalInvertido += float(movimiento['cantidad_from'])
-            if movimiento['moneda_to'] == 'EUR':
-                totalRecuperado += float(movimiento['cantidad_to'])
+        if isinstance(datos,dict):
+            if datos['moneda_from'] == 'EUR':
+                totalInvertido += float(datos['cantidad_from'])
+            if datos['moneda_to'] == 'EUR':
+                totalRecuperado += float(datos['cantidad_to'])
             total = totalInvertido -totalRecuperado
+        else:
+            for movimiento in datos:
+                if movimiento['moneda_from'] == 'EUR':
+                    totalInvertido += float(movimiento['cantidad_from'])
+                if movimiento['moneda_to'] == 'EUR':
+                    totalRecuperado += float(movimiento['cantidad_to'])
+                total = totalInvertido -totalRecuperado
         return total
         
             
@@ -97,12 +111,18 @@ class ProcesaDatos:
         datos = self.recupera_datos()
         total_from= 0.0
         total_to = 0.0
-        for movimiento in datos:
-            if movimiento['moneda_from'] == moneda:
-                 total_from += float(movimiento['cantidad_from'])
-        
-            if movimiento['moneda_to'] == moneda:
-                total_to += float(movimiento['cantidad_to'])
+        if isinstance(datos,dict):
+            if datos['moneda_from'] == moneda:
+                total_from += float(datos['cantidad_from'])
+            if datos['moneda_to'] == moneda:
+                    total_to += float(datos['cantidad_to'])
+        else:
+            for movimiento in datos:
+                if movimiento['moneda_from'] == moneda:
+                    total_from += float(movimiento['cantidad_from'])
+            
+                if movimiento['moneda_to'] == moneda:
+                    total_to += float(movimiento['cantidad_to'])
 
         return total_to - total_from
 

@@ -29,7 +29,9 @@
                 </tr>
             </thead>
             <tbody>
+               
                 {% for item in movimientos %}
+                   
                     <tr>
                         
                         <td>{{item['fecha']}}</td>
@@ -40,6 +42,7 @@
                         <td>{{item['cantidad_to']}}</td>
                         <td>{{item['cantidad_from']/item['cantidad_to']}} {{item['moneda_to']}}</td>
                     </tr>
+                    
                 {% endfor %}
             </tbody>
         </table>

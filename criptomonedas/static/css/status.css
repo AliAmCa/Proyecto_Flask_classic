@@ -18,15 +18,23 @@
     display: flex;
     justify-content:right;
     margin-left: 50vh;
+    color: black;
 
 }
 .table-criptos  td{
     background-color: var(--white-color);
     color: black;
-    
+   
+}
+.cabecera-tabla{
+    border-bottom: solid 2px black;
 }
 
+.cabecera-criptos th{
+    color: var(--white-color);
+    border-bottom: solid 2px black;
 
+}
 .status-item{
     list-style-type: none;
     color: var(--second-color);

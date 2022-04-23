@@ -24,6 +24,9 @@ class PurchaseForm(FlaskForm):
     
     cantidad_to = HiddenField()
     campos = HiddenField()
+    from_hidden = HiddenField()
+    to_hidden = HiddenField()
+    cant_hidden= HiddenField()
     aceptar = SubmitField("aceptar")
 
     

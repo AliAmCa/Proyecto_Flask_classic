@@ -1,7 +1,7 @@
 from criptomonedas import app
 from flask import flash, render_template, request, redirect, url_for
 import sqlite3
-from criptomonedas.errors import APIError
+from criptomonedas.errors import APIError, errorApi
 from criptomonedas.models import CriptoValorModel, ProcesaDatos
 from criptomonedas.forms import  PurchaseForm
 from datetime import datetime
@@ -30,7 +30,7 @@ def inicio():
 @app.route("/purchase", methods= ['GET', 'POST'])
 def purchase():
     form = PurchaseForm()
-   
+    
     
     if request.method == 'GET':
         return render_template("compra.html", formulario = form)
@@ -56,8 +56,9 @@ def purchase():
                 #Comprobar que tienes la moneda origen y suficiente cantidad
                 hay_fondos=True
 
-                if form.moneda_from.data not in form.campos.data and form.moneda_to.data not in form.campos.data and str(form.cantidad_from.data) not in form.campos.data:
-                    flash("Se ha producido un cambio en los datos calculados")
+                if (moneda_origen != form.from_hidden.data) or(moneda_destino != form.to_hidden.data) or (str(cantidad_origen) != form.cant_hidden.data):
+                    flash("Se ha producido un cambio en los datos calculados, vuelva a calcular el valor")
+                    form.cantidad_to.data =None
                     return render_template("compra.html", formulario = form)
 
                 if moneda_origen != 'EUR':
@@ -96,11 +97,15 @@ def purchase():
                         cantidad_destino = cantidad_origen * tasa
                         #Pasar el formulario y la cantidad destino
                         form.campos.data = (moneda_origen,moneda_destino, cantidad_origen)
+                        form.from_hidden.data = moneda_origen
+                        form.to_hidden.data = moneda_destino
+                        form.cant_hidden.data = cantidad_origen
                         form.cantidad_to.data = cantidad_destino
                         pu = cantidad_origen/cantidad_destino
                         return render_template("compra.html",formulario =  form, cantidad_to = cantidad_destino, precio_unitario = pu  )
                     except APIError as e:
-                        flash("Se ha producido un error al consultar la api")
+                        flash(f"Se ha producido un error al consultar la api: {errorApi(e)}")
+                        
                         return render_template("compra.html", formulario = form)
                 else:
                     flash("No dispones de suficientes fondos")
